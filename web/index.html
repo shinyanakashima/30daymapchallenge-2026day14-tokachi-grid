@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where the map came first — Tokachi grid</title>
+<meta name="description" content="The roads of the Tokachi plain, Hokkaido, still follow a grid that was drawn on paper before the settlers arrived. #30DayMapChallenge 2026 Day 14: Borgesian map.">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Noto+Sans+JP:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="is-paper">
+<div id="map" aria-label="Map"></div>
+
+<button id="lang" class="lang" type="button" aria-label="日本語に切り替え">日本語</button>
+
+<aside id="panel" class="panel">
+  <p class="kicker" data-i18n="kicker"></p>
+  <h1 data-i18n="title"></h1>
+  <p class="lede" id="lede" data-i18n="lede"></p>
+
+  <div id="intro-actions" class="intro-actions">
+    <button id="reveal" class="reveal" type="button" data-i18n="reveal"></button>
+    <p class="hint" data-i18n="hint"></p>
+  </div>
+
+  <div id="story" class="story">
+    <p data-i18n="borges"></p>
+
+    <div class="control">
+      <label for="blend" class="control-label">
+        <span data-i18n="mapEnd"></span>
+        <span data-i18n="landEnd"></span>
+      </label>
+      <input id="blend" type="range" min="0" max="100" value="0" step="1">
+    </div>
+
+    <div class="control">
+      <label class="check">
+        <input id="roads" type="checkbox">
+        <span data-i18n="roadsToggle"></span>
+      </label>
+      <p class="legend" id="legend" hidden>
+        <span class="sw sw-on"></span><span data-i18n="onGrid"></span>
+        <span class="sw sw-off"></span><span data-i18n="offGrid"></span>
+      </p>
+    </div>
+
+    <div id="info" class="info">
+      <p class="muted" data-i18n="clickHint"></p>
+    </div>
+
+    <p data-i18n="history"></p>
+    <p data-i18n="method"></p>
+
+    <details class="notes">
+      <summary data-i18n="notesTitle"></summary>
+      <ul>
+        <li data-i18n="note1"></li>
+        <li data-i18n="note2"></li>
+        <li data-i18n="note3"></li>
+        <li data-i18n="note4"></li>
+      </ul>
+      <p class="sources" data-i18n="sources"></p>
+    </details>
+  </div>
+</aside>
+
+<div id="stat" class="stat" aria-live="polite">
+  <div class="stat-num"><span id="stat-value">–</span><span class="pct">%</span></div>
+  <p class="stat-text" data-i18n="statText"></p>
+  <p class="stat-sub" data-i18n="statSub"></p>
+</div>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

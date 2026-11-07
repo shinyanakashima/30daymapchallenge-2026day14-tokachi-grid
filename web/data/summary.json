@@ -1,0 +1,49 @@
+{
+  "share": 0.5614,
+  "baseline_share": 0.0409,
+  "share_fixed_546": 0.3459,
+  "pitch_min": 545.5,
+  "pitch_max": 567.0,
+  "pitch_median": 555.5,
+  "road_km": 1792.4,
+  "on_km": 1006.3,
+  "tiles": 36,
+  "angle_min": -38.8,
+  "angle_max": 39.4,
+  "share_min": 0.1795,
+  "share_max": 0.9769,
+  "share_median": 0.5317,
+  "params": {
+    "spacing_m": 545.45,
+    "pitch_search_m": [
+      545.45,
+      570.0,
+      0.5
+    ],
+    "tolerance_m": 15.0,
+    "angle_tolerance_deg": 15.0,
+    "tile_m": 4000.0,
+    "sample_step_m": 5.0,
+    "road_classes": [
+      "motorway",
+      "motorway_link",
+      "primary",
+      "primary_link",
+      "residential",
+      "secondary",
+      "secondary_link",
+      "tertiary",
+      "tertiary_link",
+      "trunk",
+      "trunk_link",
+      "unclassified"
+    ]
+  },
+  "osm_timestamp": "2026-11-07T02:06:26Z",
+  "bbox": [
+    142.9,
+    42.55,
+    143.34,
+    42.98
+  ]
+}
