@@ -14,14 +14,21 @@
 <body>
 <div id="map" aria-label="Map"></div>
 
-<button id="lang" class="lang" type="button" aria-label="日本語に切り替え">日本語</button>
-
 <aside id="panel" class="panel">
-  <p class="kicker" data-i18n="kicker"></p>
+  <div class="panel-head">
+    <p class="kicker" data-i18n="kicker"></p>
+    <button id="lang" class="lang" type="button" aria-label="日本語に切り替え">日本語</button>
+  </div>
   <h1 data-i18n="title"></h1>
 
   <div id="story" class="story">
     <p class="lede" data-i18n="borges"></p>
+
+    <div id="stat" class="stat" aria-live="polite">
+      <div class="stat-num"><span id="stat-value">–</span><span class="pct">%</span></div>
+      <p class="stat-text" data-i18n="statText"></p>
+      <p class="stat-sub" data-i18n="statSub"></p>
+    </div>
 
     <div class="control">
       <label class="check">
@@ -52,18 +59,14 @@
   </div>
 </aside>
 
-<div class="blend">
-  <label for="blend" class="blend-label">
-    <span data-i18n="mapEnd"></span>
-    <span data-i18n="landEnd"></span>
-  </label>
-  <input id="blend" type="range" min="0" max="100" value="70" step="1" aria-label="Grid / aerial photo">
-</div>
-
-<div id="stat" class="stat" aria-live="polite">
-  <div class="stat-num"><span id="stat-value">–</span><span class="pct">%</span></div>
-  <p class="stat-text" data-i18n="statText"></p>
-  <p class="stat-sub" data-i18n="statSub"></p>
+<div id="blend-ctrl" class="blend maplibregl-ctrl">
+  <span class="blend-end" data-i18n="landEnd"></span>
+  <input id="blend" type="range" orient="vertical" min="0" max="100" value="70" step="1" aria-label="Grid / aerial photo">
+  <span class="blend-end" data-i18n="mapEnd"></span>
+  <button id="play" class="play" type="button" aria-label="Play">
+    <svg class="i-play" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg>
+    <svg class="i-pause" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></svg>
+  </button>
 </div>
 
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>

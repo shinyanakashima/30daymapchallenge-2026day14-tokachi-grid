@@ -37,6 +37,17 @@ const path = require("path");
   await page.waitForTimeout(1500);
   await page.screenshot({ path: path.join(__dirname, "..", "docs", "screenshot.png") });
 
+  // play button moves the slider from 0 to 100
+  await page.evaluate(() => { const el = document.getElementById("blend"); el.value = 0; el.dispatchEvent(new Event("input")); });
+  await page.click("#play");
+  await page.waitForTimeout(3000);
+  const mid = Number(await page.inputValue("#blend"));
+  await page.waitForTimeout(4000);
+  const end = Number(await page.inputValue("#blend"));
+  console.log("play: slider", mid.toFixed(0), "->", end.toFixed(0));
+  if (!(mid > 20 && mid < 90 && end === 100)) problems.push("play animation did not move the slider as expected");
+  await page.evaluate(() => { const el = document.getElementById("blend"); el.value = 55; el.dispatchEvent(new Event("input")); });
+
   await page.click("#lang");
   await page.waitForTimeout(300);
   const ja = await page.textContent("h1");

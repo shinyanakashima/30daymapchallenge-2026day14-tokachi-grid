@@ -7,8 +7,8 @@
       title: "Where the map came first",
       borges: "Borges wrote of a map that copied the land exactly. This work shows the opposite: Tokachi, where the map was drawn first and the land was cleared to fit it.",
       history: "Under the 1897 law for opening up state-owned wild land, each 300-ken square was split into six lots of 150 × 100 ken, and one lot (5 chōbu, about 5 ha) went to one household. The settlement survey went on until 1946.",
-      mapEnd: "The map",
-      landEnd: "The land",
+      mapEnd: "Map",
+      landEnd: "Land",
       roadsToggle: "Colour the roads",
       onGrid: "on the grid",
       offGrid: "off the grid",
@@ -27,6 +27,8 @@
       note4: "Study area: farmland blocks in Obihiro, Memuro, Makubetsu, Sarabetsu, Nakasatsunai, Shimizu and Taiki. Town centres, forests and hills are left out. Roads: OpenStreetMap as of {date}.",
       sources: 'Aerial photos: <a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">GSI Japan</a>, seamless aerial photos. Roads: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL). History: <a href="https://www.maff.go.jp/j/nousin/sekkei/museum/m_siki/07_tokati_heiya/index.html" target="_blank" rel="noopener">MAFF, Tokachi Plain</a>; <a href="https://www.hkd.mlit.go.jp/ob/tisui/kds/pamphlet/tabi/pdf/03-04-06-kaitaku-p143.pdf" target="_blank" rel="noopener">Hokkaido Regional Development Bureau, Obihiro (PDF)</a>. <a href="https://github.com/shinyanakashima/30daymapchallenge-2026day14-tokachi-grid" target="_blank" rel="noopener">Code and method</a>.',
       langBtn: "日本語",
+      play: "Play: fade in the aerial photo",
+      pause: "Pause",
       langLabel: "日本語に切り替え",
       north: "N {a}° {d}",
       east: "E",
@@ -57,6 +59,8 @@
       note4: "対象範囲：帯広市、芽室町、幕別町、更別村、中札内村、清水町、大樹町の農地の区画。市街地、森林、山地は除いています。道路：OpenStreetMap（{date}時点）。",
       sources: '航空写真：<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">国土地理院</a> シームレス空中写真。道路：© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>（ODbL）。歴史：<a href="https://www.maff.go.jp/j/nousin/sekkei/museum/m_siki/07_tokati_heiya/index.html" target="_blank" rel="noopener">農林水産省「十勝平野」</a>、<a href="https://www.hkd.mlit.go.jp/ob/tisui/kds/pamphlet/tabi/pdf/03-04-06-kaitaku-p143.pdf" target="_blank" rel="noopener">国土交通省 北海道開発局 帯広開発建設部（PDF）</a>。<a href="https://github.com/shinyanakashima/30daymapchallenge-2026day14-tokachi-grid" target="_blank" rel="noopener">コードと方法</a>。',
       langBtn: "English",
+      play: "再生：航空写真を徐々に表示",
+      pause: "一時停止",
       langLabel: "Switch to English",
       north: "北から{d}へ{a}°",
       east: "東",
@@ -103,6 +107,9 @@
     const btn = $("lang");
     btn.textContent = t.langBtn;
     btn.setAttribute("aria-label", t.langLabel);
+    const play = $("play");
+    if (play) play.setAttribute("aria-label", play.classList.contains("is-playing") ? t.pause : t.play);
+    $("blend").setAttribute("aria-label", t.mapEnd + " / " + t.landEnd);
     document.title = (lang === "ja" ? "地図が先に来た場所" : "Where the map came first") + " — Tokachi grid";
     renderInfo();
   }
@@ -219,6 +226,8 @@
 
   map.addControl(new maplibregl.AttributionControl({ compact: true }), "bottom-right");
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+  const blendEl = $("blend-ctrl");
+  map.addControl({ onAdd: () => blendEl, onRemove: () => blendEl.remove() }, "top-right");
 
   function setBlend(v, duration) {
     const t = v / 100;
@@ -235,7 +244,42 @@
   const INITIAL_BLEND = 70;
   map.on("load", () => setBlend(INITIAL_BLEND, 0));
 
-  $("blend").addEventListener("input", (e) => setBlend(Number(e.target.value), 0));
+  // Play: move the slider from the map (0) to the land (100)
+  const PLAY_MS = 6000;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let raf = null;
+
+  function stopPlay() {
+    if (raf) cancelAnimationFrame(raf);
+    raf = null;
+    $("play").classList.remove("is-playing");
+    $("play").setAttribute("aria-label", STR[lang].play);
+  }
+
+  function startPlay() {
+    const slider = $("blend");
+    let from = Number(slider.value);
+    if (from >= 100) from = 0;
+    if (reduceMotion) {
+      slider.value = 100;
+      setBlend(100, 0);
+      return;
+    }
+    $("play").classList.add("is-playing");
+    $("play").setAttribute("aria-label", STR[lang].pause);
+    const t0 = performance.now() - (from / 100) * PLAY_MS;
+    const step = (now) => {
+      const v = Math.min(100, ((now - t0) / PLAY_MS) * 100);
+      slider.value = v;
+      setBlend(v, 0);
+      if (v < 100) raf = requestAnimationFrame(step);
+      else stopPlay();
+    };
+    raf = requestAnimationFrame(step);
+  }
+
+  $("play").addEventListener("click", () => (raf ? stopPlay() : startPlay()));
+  $("blend").addEventListener("input", (e) => { stopPlay(); setBlend(Number(e.target.value), 0); });
 
   $("roads").addEventListener("change", (e) => {
     const on = e.target.checked;
@@ -261,5 +305,5 @@
       applyLang();
     });
 
-  window.__tokachi = { map };
+  window.__tokachi = { map, startPlay };
 })();
