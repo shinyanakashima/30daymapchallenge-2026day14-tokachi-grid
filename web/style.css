@@ -55,23 +55,6 @@ html[lang="ja"] h1 { font-family: "Noto Sans JP", var(--sans); font-size: 28px; 
 .lede { margin: 0 0 18px; font-size: 16px; }
 .story p { margin: 0 0 12px; }
 
-.intro-actions { margin: 6px 0 4px; }
-.reveal {
-  font: inherit;
-  font-weight: 600;
-  padding: 10px 16px;
-  color: var(--paper);
-  background: var(--ink);
-  border: 0;
-  cursor: pointer;
-}
-.reveal:hover, .reveal:focus-visible { background: var(--accent); }
-.hint { margin: 8px 0 0; font-size: 13px; color: var(--ink-soft); }
-
-.story { display: none; }
-body.is-land .story { display: block; }
-body.is-land .intro-actions { display: none; }
-
 .control { margin: 18px 0; }
 .control-label {
   display: flex;
@@ -161,7 +144,6 @@ input[type="range"] { width: 100%; accent-color: var(--ink); }
     border-right: 0;
     border-bottom: 0;
   }
-  body.is-paper .panel { max-height: 62vh; }
   h1 { font-size: 26px; }
   .lede { font-size: 15px; margin-bottom: 12px; }
   .stat {
@@ -178,5 +160,4 @@ input[type="range"] { width: 100%; accent-color: var(--ink); }
   .stat-sub { display: none; }
   .lang { top: 12px; right: 12px; }
   .maplibregl-ctrl-bottom-right { bottom: 46vh; }
-  body.is-paper .maplibregl-ctrl-bottom-right { bottom: 62vh; }
 }

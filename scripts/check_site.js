@@ -21,11 +21,6 @@ const path = require("path");
   await page.goto(url, { waitUntil: "networkidle" });
   await page.waitForFunction(() => window.__tokachi && window.__tokachi.map.loaded());
   await page.waitForTimeout(1000);
-  await page.screenshot({ path: path.join(__dirname, "..", "docs", "screenshot-paper.png") });
-
-  await page.click("#reveal");
-  await page.waitForTimeout(4500);
-  await page.check("#roads");
   await page.evaluate(() => {
     const m = window.__tokachi.map;
     const el = document.getElementById("blend");
@@ -49,8 +44,7 @@ const path = require("path");
   const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
   mobile.on("pageerror", (e) => problems.push(`mobile pageerror: ${e.message}`));
   await mobile.goto(url, { waitUntil: "networkidle" });
-  await mobile.click("#reveal");
-  await mobile.waitForTimeout(4500);
+  await mobile.waitForTimeout(2000);
   await mobile.screenshot({ path: path.join(__dirname, "..", "docs", "screenshot-mobile.png") });
   const overflow = await mobile.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
 

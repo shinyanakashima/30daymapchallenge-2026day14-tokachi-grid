@@ -5,10 +5,7 @@
     en: {
       kicker: "#30DayMapChallenge 2026 · Day 14 · Borgesian map",
       title: "Where the map came first",
-      lede: "On the Tokachi plain in Hokkaido, the grid was drawn before the farms. What you see is the grid alone.",
-      ledeLand: "On the Tokachi plain in Hokkaido, the grid was drawn before the farms. Under it now: the land as it looks today.",
-      reveal: "Show the land",
-      hint: "Or scroll on the map.",
+      lede: "On the Tokachi plain in Hokkaido, the grid was drawn before the farms. Under it now: the land as it looks today.",
       borges: "In Jorge Luis Borges's one-paragraph story “On Exactitude in Science”, mapmakers draw a map as large as the empire, and it ends up lying over the land. Tokachi is the reverse: the map came first, and the land grew into its shape.",
       history: "When the Banseisha group settled at Obihiro in 1883, the rivers were still the main routes and there were only footpaths on land. Under the 1897 law for opening up state-owned wild land, the plains were divided ahead of settlement into squares of 300 ken (546 m), each split into six lots of 150 × 100 ken. One lot, 5 chōbu (about 5 ha), went to one household. Roads and fields were laid out along those lines, and the settlement survey went on until 1946.",
       method: "The lines on this map are not copied from old plans. They were fitted to today's roads: in each 4 × 4 km block, the direction of the roads gives the angle of the grid, and the lines are shifted until they sit on as many roads as possible.",
@@ -40,10 +37,7 @@
     ja: {
       kicker: "#30DayMapChallenge 2026 · Day 14 · Borgesian map",
       title: "地図が先に来た場所",
-      lede: "北海道・十勝平野では、畑より先に格子が引かれた。いま見えているのは、その格子だけ。",
-      ledeLand: "北海道・十勝平野では、畑より先に格子が引かれた。その下に、いまの土地の姿を重ねた。",
-      reveal: "土地を表示する",
-      hint: "地図の上でスクロールしても表示できます。",
+      lede: "北海道・十勝平野では、畑より先に格子が引かれた。その下に、いまの土地の姿を重ねた。",
       borges: "ボルヘスの短い物語「学問の厳密さについて」では、帝国と同じ大きさの地図が作られ、やがて領土を覆う。十勝はその逆で、先に地図があり、土地の方がその形に育った。",
       history: "1883年に晩成社が帯広に入ったころ、交通の中心はまだ川で、陸にはふみわけ道があるくらいだった。1897年の北海道国有未開地処分法のもとで、原野は入植に先立って300間（546m）四方の中区画に分けられ、それぞれが150間×100間の小区画6つに分けられた。小区画1つ、5町歩が1戸の割り当てだった。道と畑はその線に沿って作られ、殖民地選定事業は1946年まで続いた。",
       method: "この地図の線は、昔の区画図を写したものではない。いまの道路から推定した。4km四方の区画ごとに、道路の向きの分布から格子の角度を求め、道路と最もよく重なる位置に線をずらして合わせている。",
@@ -74,7 +68,6 @@
     },
   };
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let lang = "en";
   try {
     const saved = localStorage.getItem("lang");
@@ -83,7 +76,6 @@
 
   let summary = null;
   let selected = null;
-  let revealed = false;
 
   const $ = (id) => document.getElementById(id);
   const fill = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => (v[k] !== undefined ? v[k] : ""));
@@ -158,7 +150,6 @@
     maxZoom: 17,
     maxBounds: [[142.4, 42.3], [143.9, 43.2]],
     attributionControl: false,
-    scrollZoom: false,
     style: {
       version: 8,
       sources: {
@@ -190,7 +181,7 @@
         },
         {
           id: "roads", type: "line", source: "roads",
-          layout: { visibility: "none", "line-cap": "round" },
+          layout: { "line-cap": "round" },
           paint: {
             "line-color": ["match", ["get", "on"], 1, "#e8552c", "#39a7e0"],
             "line-width": ["interpolate", ["linear"], ["zoom"], 10, 1, 14, 2.5, 17, 5],
@@ -245,30 +236,8 @@
     map.setPaintProperty("tiles-line", "line-color", t > 0.5 ? "#f6efe0" : "#8a7f70");
   }
 
-  function reveal() {
-    if (revealed) return;
-    revealed = true;
-    document.body.classList.remove("is-paper");
-    document.body.classList.add("is-land");
-    $("lede").setAttribute("data-i18n", "ledeLand");
-    applyLang();
-    map.scrollZoom.enable();
-    const target = 70;
-    $("blend").value = target;
-    setBlend(target, reduceMotion ? 0 : 3500);
-    if (!reduceMotion) {
-      map.easeTo({ zoom: map.getZoom() + 0.8, duration: 4000, easing: (x) => 1 - Math.pow(1 - x, 3) });
-    }
-    $("panel").scrollTop = 0;
-  }
-
-  $("reveal").addEventListener("click", reveal);
-  map.getCanvasContainer().addEventListener("wheel", (e) => {
-    if (!revealed && e.deltaY > 0) { e.preventDefault(); reveal(); }
-  }, { passive: false });
-  document.addEventListener("keydown", (e) => {
-    if (!revealed && (e.key === "ArrowDown" || e.key === "PageDown")) reveal();
-  });
+  const INITIAL_BLEND = 70;
+  map.on("load", () => setBlend(INITIAL_BLEND, 0));
 
   $("blend").addEventListener("input", (e) => setBlend(Number(e.target.value), 0));
 
@@ -296,5 +265,5 @@
       applyLang();
     });
 
-  window.__tokachi = { map, reveal };
+  window.__tokachi = { map };
 })();

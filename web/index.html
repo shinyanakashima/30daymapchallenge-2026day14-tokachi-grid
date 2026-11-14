@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Noto+Sans+JP:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<body class="is-paper">
+<body>
 <div id="map" aria-label="Map"></div>
 
 <button id="lang" class="lang" type="button" aria-label="日本語に切り替え">日本語</button>
@@ -21,11 +21,6 @@
   <h1 data-i18n="title"></h1>
   <p class="lede" id="lede" data-i18n="lede"></p>
 
-  <div id="intro-actions" class="intro-actions">
-    <button id="reveal" class="reveal" type="button" data-i18n="reveal"></button>
-    <p class="hint" data-i18n="hint"></p>
-  </div>
-
   <div id="story" class="story">
     <p data-i18n="borges"></p>
 
@@ -34,15 +29,15 @@
         <span data-i18n="mapEnd"></span>
         <span data-i18n="landEnd"></span>
       </label>
-      <input id="blend" type="range" min="0" max="100" value="0" step="1">
+      <input id="blend" type="range" min="0" max="100" value="70" step="1">
     </div>
 
     <div class="control">
       <label class="check">
-        <input id="roads" type="checkbox">
+        <input id="roads" type="checkbox" checked>
         <span data-i18n="roadsToggle"></span>
       </label>
-      <p class="legend" id="legend" hidden>
+      <p class="legend" id="legend">
         <span class="sw sw-on"></span><span data-i18n="onGrid"></span>
         <span class="sw sw-off"></span><span data-i18n="offGrid"></span>
       </p>
