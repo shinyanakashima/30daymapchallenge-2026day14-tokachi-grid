@@ -5,8 +5,8 @@
     en: {
       kicker: "#30DayMapChallenge 2026 · Day 14 · Borgesian map",
       title: "Where the map came first",
-      lede: "In Tokachi, a 546 m grid was drawn before the farms.",
-      borges: "Borges imagined a map that covered the land. Here the land grew into the map.",
+      lede: "The farm roads of Tokachi follow survey lines drawn on paper in the Meiji era.",
+      borges: "In Borges's “On Exactitude in Science”, the map ends up covering the land. Here it was the other way round: the map came first, and the land was cleared to fit it.",
       history: "Under the 1897 law for opening up state-owned wild land, each 300-ken square was split into six lots of 150 × 100 ken, and one lot (5 chōbu, about 5 ha) went to one household. The settlement survey went on until 1946.",
       mapEnd: "The map",
       landEnd: "The land",
@@ -36,8 +36,8 @@
     ja: {
       kicker: "#30DayMapChallenge 2026 · Day 14 · Borgesian map",
       title: "地図が先に来た場所",
-      lede: "十勝では、畑より先に546m四方の格子が引かれた。",
-      borges: "ボルヘスの地図は領土を覆った。ここでは土地が地図の形に育った。",
+      lede: "十勝の農地の道路は、明治時代に紙の上で引かれた区画の線に沿っています。",
+      borges: "ボルヘスの「学問の厳密さについて」では地図が土地を覆いますが、ここでは逆に、先に地図ができて、土地はそれに合わせて開かれました。",
       history: "1897年の北海道国有未開地処分法のもとで、300間四方の中区画は150間×100間の小区画6つに分けられ、小区画1つ（5町歩）が1戸に割り当てられた。殖民地選定事業は1946年まで続いた。",
       mapEnd: "地図",
       landEnd: "土地",
