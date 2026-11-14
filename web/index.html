@@ -25,14 +25,6 @@
     <p data-i18n="borges"></p>
 
     <div class="control">
-      <label for="blend" class="control-label">
-        <span data-i18n="mapEnd"></span>
-        <span data-i18n="landEnd"></span>
-      </label>
-      <input id="blend" type="range" min="0" max="100" value="70" step="1">
-    </div>
-
-    <div class="control">
       <label class="check">
         <input id="roads" type="checkbox" checked>
         <span data-i18n="roadsToggle"></span>
@@ -47,12 +39,10 @@
       <p class="muted" data-i18n="clickHint"></p>
     </div>
 
-    <p data-i18n="history"></p>
-    <p data-i18n="method"></p>
-
     <details class="notes">
       <summary data-i18n="notesTitle"></summary>
       <ul>
+        <li data-i18n="history"></li>
         <li data-i18n="note1"></li>
         <li data-i18n="note2"></li>
         <li data-i18n="note3"></li>
@@ -62,6 +52,14 @@
     </details>
   </div>
 </aside>
+
+<div class="blend">
+  <label for="blend" class="blend-label">
+    <span data-i18n="mapEnd"></span>
+    <span data-i18n="landEnd"></span>
+  </label>
+  <input id="blend" type="range" min="0" max="100" value="70" step="1" aria-label="Grid / aerial photo">
+</div>
 
 <div id="stat" class="stat" aria-live="polite">
   <div class="stat-num"><span id="stat-value">–</span><span class="pct">%</span></div>
