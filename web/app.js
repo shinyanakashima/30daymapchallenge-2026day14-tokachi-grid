@@ -5,8 +5,8 @@
     en: {
       kicker: "#30DayMapChallenge 2026 · Day 14 · Borgesian map",
       title: "Where the map came first",
-      lede: "On the Tokachi plain in Hokkaido, the land was divided into 300-ken (546 m) squares before the farms came. The roads still follow those lines.",
-      borges: "Borges wrote of a map that grew until it covered the empire. Here it went the other way: the land grew into the map.",
+      lede: "In Tokachi, a 546 m grid was drawn before the farms.",
+      borges: "Borges imagined a map that covered the land. Here the land grew into the map.",
       history: "Under the 1897 law for opening up state-owned wild land, each 300-ken square was split into six lots of 150 × 100 ken, and one lot (5 chōbu, about 5 ha) went to one household. The settlement survey went on until 1946.",
       mapEnd: "The map",
       landEnd: "The land",
@@ -36,8 +36,8 @@
     ja: {
       kicker: "#30DayMapChallenge 2026 · Day 14 · Borgesian map",
       title: "地図が先に来た場所",
-      lede: "北海道・十勝平野では、畑より先に300間（546m）四方の格子が引かれた。道はいまもその線の上を走っている。",
-      borges: "ボルヘスは、帝国を覆うまで大きくなった地図の話を書いた。ここではその逆に、土地の方が地図の形に育った。",
+      lede: "十勝では、畑より先に546m四方の格子が引かれた。",
+      borges: "ボルヘスの地図は領土を覆った。ここでは土地が地図の形に育った。",
       history: "1897年の北海道国有未開地処分法のもとで、300間四方の中区画は150間×100間の小区画6つに分けられ、小区画1つ（5町歩）が1戸に割り当てられた。殖民地選定事業は1946年まで続いた。",
       mapEnd: "地図",
       landEnd: "土地",
