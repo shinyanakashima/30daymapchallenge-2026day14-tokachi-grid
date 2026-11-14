@@ -230,7 +230,7 @@
   map.addControl({ onAdd: () => blendEl, onRemove: () => blendEl.remove() }, "top-right");
 
   function setBlend(v, duration) {
-    const t = v / 100;
+    const t = Math.max(0, Math.min(1, v / 100));
     const tr = { duration: duration || 0, delay: 0 };
     map.setPaintProperty("photo", "raster-opacity-transition", tr);
     map.setPaintProperty("grid-dark", "line-opacity-transition", tr);
@@ -269,7 +269,7 @@
     $("play").setAttribute("aria-label", STR[lang].pause);
     const t0 = performance.now() - (from / 100) * PLAY_MS;
     const step = (now) => {
-      const v = Math.min(100, ((now - t0) / PLAY_MS) * 100);
+      const v = Math.max(0, Math.min(100, ((now - t0) / PLAY_MS) * 100));
       slider.value = v;
       setBlend(v, 0);
       if (v < 100) raf = requestAnimationFrame(step);
