@@ -18,11 +18,9 @@
       share: "Roads on the grid",
       length: "Road length",
       spacing: "Line spacing",
-      statText: "of roads run along survey lines drawn before settlement.",
-      statSub: "{tiles} farmland blocks, {km} km of road, counted within ±{tol} m of the estimated lines. A grid placed at random gives {base}%.",
       notesTitle: "Notes and sources",
       note1: "The grid is estimated from present-day roads. It is not the original survey plan.",
-      note2: "A road counts as on the grid when it runs within ±{tol} m of a fitted line and within {atol}° of its direction. The share depends on this threshold.",
+      note2: "A road counts as on the grid when it runs within ±{tol} m of a fitted line and within {atol}° of its direction. Counted this way, {share}% of the {km} km of road in the {tiles} blocks is on the grid. The same fitting applied to roads moved to random positions gives {null}%. The share depends on the threshold.",
       note3: "Road centrelines here repeat a little wider than 546 m (median {pitch} m), so the fit searches spacings from 545.5 to 570 m. With the spacing fixed at 545.5 m, the overall share is {fixed}%.",
       note4: "Study area: farmland blocks in Obihiro, Memuro, Makubetsu, Sarabetsu, Nakasatsunai, Shimizu and Taiki. Town centres, forests and hills are left out. Roads: OpenStreetMap as of {date}.",
       sources: 'Aerial photos: <a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">GSI Japan</a>, seamless aerial photos. Roads: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL). History: <a href="https://www.maff.go.jp/j/nousin/sekkei/museum/m_siki/07_tokati_heiya/index.html" target="_blank" rel="noopener">MAFF, Tokachi Plain</a>; <a href="https://www.hkd.mlit.go.jp/ob/tisui/kds/pamphlet/tabi/pdf/03-04-06-kaitaku-p143.pdf" target="_blank" rel="noopener">Hokkaido Regional Development Bureau, Obihiro (PDF)</a>. <a href="https://github.com/shinyanakashima/30daymapchallenge-2026day14-tokachi-grid" target="_blank" rel="noopener">Code and method</a>.',
@@ -50,11 +48,9 @@
       share: "格子の上を走る道路",
       length: "道路の長さ",
       spacing: "線の間隔",
-      statText: "入植前に引かれた区画線の上を走る道路の割合",
-      statSub: "農地{tiles}区画・道路{km}kmのうち、推定した線から±{tol}m以内の道路。格子の位置をランダムにすると{base}%。",
       notesTitle: "注記と出典",
       note1: "格子は現在の道路から推定したもので、当時の区画図そのものではありません。",
-      note2: "推定した線から±{tol}m以内を、線の向きと{atol}°以内の向きで走る道路を「格子の上」として数えています。割合はこのしきい値によって変わります。",
+      note2: "推定した線から±{tol}m以内を、線の向きと{atol}°以内の向きで走る道路を「格子の上」として数えています。この数え方で、{tiles}区画・道路{km}kmのうち{share}%が格子の上にあります。道路の位置をでたらめにずらして同じ当てはめをすると{null}%です。割合はしきい値によって変わります。",
       note3: "ここでの道路の中心線の間隔は546mより少し広く（中央値{pitch}m）、間隔は545.5〜570mの範囲で合わせています。間隔を545.5mに固定した場合の全体の割合は{fixed}%です。",
       note4: "対象範囲：帯広市、芽室町、幕別町、更別村、中札内村、清水町、大樹町の農地の区画。市街地、森林、山地は除いています。道路：OpenStreetMap（{date}時点）。",
       sources: '航空写真：<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">国土地理院</a> シームレス空中写真。道路：© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>（ODbL）。歴史：<a href="https://www.maff.go.jp/j/nousin/sekkei/museum/m_siki/07_tokati_heiya/index.html" target="_blank" rel="noopener">農林水産省「十勝平野」</a>、<a href="https://www.hkd.mlit.go.jp/ob/tisui/kds/pamphlet/tabi/pdf/03-04-06-kaitaku-p143.pdf" target="_blank" rel="noopener">国土交通省 北海道開発局 帯広開発建設部（PDF）</a>。<a href="https://github.com/shinyanakashima/30daymapchallenge-2026day14-tokachi-grid" target="_blank" rel="noopener">コードと方法</a>。',
@@ -89,7 +85,8 @@
       km: Math.round(summary.road_km).toLocaleString(lang === "ja" ? "ja-JP" : "en-US"),
       tol: p.tolerance_m,
       atol: p.angle_tolerance_deg,
-      base: pct(summary.baseline_share),
+      share: pct(summary.share),
+      null: pct(summary.null_fit_share),
       fixed: pct(summary.share_fixed_546),
       pitch: summary.pitch_median,
       date: summary.osm_timestamp.slice(0, 10),
@@ -301,7 +298,6 @@
     .then((r) => r.json())
     .then((s) => {
       summary = s;
-      $("stat-value").textContent = pct(s.share);
       applyLang();
     });
 

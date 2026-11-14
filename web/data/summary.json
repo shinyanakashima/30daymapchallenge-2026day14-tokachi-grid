@@ -1,6 +1,6 @@
 {
   "share": 0.5614,
-  "baseline_share": 0.0409,
+  "null_fit_share": 0.1525,
   "share_fixed_546": 0.3459,
   "pitch_min": 545.5,
   "pitch_max": 567.0,

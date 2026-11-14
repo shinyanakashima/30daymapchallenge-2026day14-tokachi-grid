@@ -121,22 +121,6 @@ html[lang="ja"] h1 { font-family: "Noto Sans JP", var(--sans); font-size: 28px; 
 .notes a, .story a { color: var(--accent); }
 .sources { margin: 0; }
 
-.stat {
-  margin: 0 0 18px;
-  padding: 14px 0;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-}
-.stat-num {
-  font-family: var(--serif);
-  font-size: 64px;
-  line-height: 1;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-.stat-num .pct { font-size: 32px; margin-left: 2px; }
-.stat-text { margin: 8px 0 4px; font-size: 15px; }
-.stat-sub { margin: 0; font-size: 12px; color: var(--ink-soft); }
 
 .panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .lang {
@@ -169,10 +153,6 @@ html[lang="ja"] h1 { font-family: "Noto Sans JP", var(--sans); font-size: 28px; 
   }
   h1 { font-size: 26px; }
   .lede { font-size: 15px; margin-bottom: 12px; }
-  .stat { padding: 10px 0; margin-bottom: 12px; }
-  .stat-num { font-size: 44px; }
-  .stat-num .pct { font-size: 22px; }
-  .stat-text { font-size: 13px; }
   .blend input[type="range"] { height: 110px; }
   .maplibregl-ctrl-bottom-right { bottom: 46vh; }
 }

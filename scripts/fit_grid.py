@@ -15,13 +15,15 @@ Method (per tile of TILE_M x TILE_M metres):
      PITCH_MAX_M) are chosen so that the length of parallel road lying within
      TOL_M of a line is maximised. A run with the spacing fixed at 545.5 m is
      also reported in summary.json.
+  5. Null model: every road is moved by a random offset (directions kept)
+     and the same fitting is run, to show how much share the fitting alone
+     produces (null_fit_share in summary.json).
   4. Share: a road point counts as "on the grid" when it lies within TOL_M of
      a fitted line and runs within ANGLE_TOL_DEG of that line's direction.
 """
 
 import json
 import math
-import random
 from pathlib import Path
 
 import numpy as np
@@ -198,7 +200,9 @@ def main():
     on_all = np.zeros(len(P), dtype=bool)
     used = np.zeros(len(P), dtype=bool)
     tiles, grid_feats = [], []
-    rng = random.Random(14)
+    # null model: every road moved by a random offset, directions kept
+    shifts = np.random.default_rng(14).uniform(0, 2000, (len(ways), 2))
+    P_null = P + shifts[WID]
     base_on, base_tot, fixed_on = 0.0, 0.0, 0.0
     PITCHES = np.arange(SPACING_M, PITCH_MAX_M + 1e-9, PITCH_STEP_M)
 
@@ -231,12 +235,13 @@ def main():
             on_all[m] = on
             used[m] = True
             share = Wm[on].sum() / Wm.sum()
-            # chance baseline: same orientation, random offsets
-            bs = []
-            for _ in range(20):
-                o, *_ = classify(Pm, Dm, theta, rng.uniform(0, spa), rng.uniform(0, spb), spa, spb)
-                bs.append(Wm[o].sum())
-            base_on += float(np.mean(bs))
+            # null model: same fitting applied to randomly shifted roads
+            Pn = P_null[m]
+            _, n1, n2, q1, q2 = classify(Pn, Dm, theta, 0, 0)
+            an, sna = fit_offset(n2[q1], Wm[q1], PITCHES)
+            bn, snb = fit_offset(n1[q2], Wm[q2], PITCHES)
+            o, *_ = classify(Pn, Dm, theta, an, bn, sna, snb)
+            base_on += Wm[o].sum()
             base_tot += Wm.sum()
 
             # convert angle to true north: meridian convergence of the tmerc grid
@@ -311,7 +316,7 @@ def main():
     pitches = [p for f in tiles for p in f["properties"]["pitch"]]
     summary = {
         "share": round(float(on_len / total), 4),
-        "baseline_share": round(base_on / base_tot, 4),
+        "null_fit_share": round(float(base_on / base_tot), 4),
         "share_fixed_546": round(float(fixed_on / base_tot), 4),
         "pitch_min": min(pitches), "pitch_max": max(pitches),
         "pitch_median": round(float(np.median(pitches)), 1),
