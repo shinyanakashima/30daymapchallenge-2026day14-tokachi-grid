@@ -65,10 +65,15 @@
   };
 
   let lang = "en";
-  try {
-    const saved = localStorage.getItem("lang");
-    if (saved === "ja" || saved === "en") lang = saved;
-  } catch (e) { /* storage unavailable */ }
+  const urlLang = new URLSearchParams(location.search).get("lang");
+  if (urlLang === "ja" || urlLang === "en") {
+    lang = urlLang;
+  } else {
+    try {
+      const saved = localStorage.getItem("lang");
+      if (saved === "ja" || saved === "en") lang = saved;
+    } catch (e) { /* storage unavailable */ }
+  }
 
   let summary = null;
   let selected = null;
